@@ -1,0 +1,17 @@
+{
+  "name": "resqroute2.0",
+  "version": "1.0.0",
+  "description": "It is an application which will have features like GPS , alert messaging , request ect",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Bhanu prasad rao",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "firebase": "^10.11.0",
+    "firebase-admin": "^12.0.0"
+  }
+}
