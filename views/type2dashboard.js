@@ -50,7 +50,7 @@ function handleLocationError(error) {
 }
 
 // Event listener to receive alert messages via WebSocket
-const socket = new WebSocket('wss://res-qr-oute2-0.vercel.app');
+const socket = new WebSocket('wss://res-qr-oute2-0-ir6s2dqby-bhanu-prasad-raos-projects.vercel.app');
 
 socket.onmessage = (event) => {
     const alertMessage = event.data;
