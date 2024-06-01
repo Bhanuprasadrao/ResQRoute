@@ -1,37 +1,74 @@
-// type2dashboard.js (for ambulance users)
+let watchId;
 
-// Function to get the current location of the user
-function getCurrentLocation() {
+document.getElementById('startRide').addEventListener('click', () => {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
+        watchId = navigator.geolocation.watchPosition(sendLocation, handleLocationError);
     } else {
-        alert("Geolocation is not supported by this browser.");
+        alert('Geolocation is not supported by this browser.');
     }
+});
+
+document.getElementById('stopRide').addEventListener('click', () => {
+    if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+    }
+});
+
+function sendLocation(position) {
+    const { latitude, longitude } = position.coords;
+
+    // Send latitude and longitude to server
+    const data = {
+        vehicleType: 'public', // Identify as public user
+        latitude,
+        longitude
+    };
+
+    // Make an AJAX request to the server to update location
+    fetch('/update-location', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        console.log('Location sent successfully');
+    })
+    .catch(error => {
+        console.error('Error sending location:', error.message);
+    });
 }
 
-// Function to handle successful retrieval of the user's location
-function showPosition(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    console.log("Latitude: " + latitude + " Longitude: " + longitude);
-
-    // You can update the UI or send this location data to the server as needed
+function handleLocationError(error) {
+    // Handle geolocation errors
+    console.error('Error getting location:', error.message);
 }
 
-// Function to handle errors in retrieving the user's location
-function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.");
-            break;
-        case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.");
-            break;
-        case error.TIMEOUT:
-            alert("The request to get user location timed out.");
-            break;
-        case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.");
-            break;
-    }
+// Event listener to receive alert messages via WebSocket
+const socket = new WebSocket('wss://res-qr-oute2-0.vercel.app');
+
+socket.onmessage = (event) => {
+    const alertMessage = event.data;
+    displayAlert(alertMessage);
+};
+
+function displayAlert(message) {
+    const alertElement = document.createElement('div');
+    alertElement.textContent = message;
+    alertElement.style.position = 'fixed';
+    alertElement.style.top = '10px';
+    alertElement.style.right = '10px';
+    alertElement.style.padding = '10px';
+    alertElement.style.backgroundColor = 'red';
+    alertElement.style.color = 'white';
+    document.body.appendChild(alertElement);
+
+    setTimeout(() => {
+        alertElement.remove();
+    }, 5000); // Remove alert after 5 seconds
 }

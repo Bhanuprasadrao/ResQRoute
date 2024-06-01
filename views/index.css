@@ -1,0 +1,76 @@
+/* styles/index.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+header .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+header nav {
+    display: flex;
+}
+
+header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+header .center-nav {
+    flex-grow: 1;
+    justify-content: center;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+}
+
+main .quote {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+main .get-started-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+footer .feedback {
+    margin-top: 10px;
+}
+
+footer .feedback a {
+    color: #fff;
+    text-decoration: none;
+}
