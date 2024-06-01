@@ -177,14 +177,18 @@ app.post('/update-location', async (req, res) => {
 let clients = [];
 
 wss.on('connection', (ws) => {
-    clients.push(ws);
     console.log('Client connected');
 
+    ws.on('message', (message) => {
+        console.log('Received:', message);
+        ws.send('Hello, client!');
+    });
+
     ws.on('close', () => {
-        clients = clients.filter(client => client !== ws);
         console.log('Client disconnected');
     });
 });
+
 
 setInterval(async () => {
     try {
